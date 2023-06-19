@@ -1,0 +1,147 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdmissionCommittee.Models
+{
+    public class Entrant: INotifyPropertyChanged
+    {
+        public int Id { get; set; }
+        private string first_name;
+        private string last_name;
+        private string patronymic;
+        private string gender;
+        private string date_of_birth;
+        private int age;
+        private int grade_average;
+        private int citizenship;
+        private int location;
+        private bool after_school;
+        private int documents;
+
+        #region Fields
+        public string FirstName
+        {
+            get => first_name;
+            set
+            {
+                first_name = value;
+                OnPropertyChanged("FirstName");
+            }
+        }
+
+        public string LastName
+        {
+            get => last_name;
+            set
+            {
+                last_name = value;
+                OnPropertyChanged("LastName");
+            }
+        }
+
+        public string Patronymic
+        {
+            get => patronymic;
+            set{ 
+                patronymic = value; 
+                OnPropertyChanged("Patronymic");
+            }
+        }
+
+        public string Gender
+        {
+            get => gender;
+            set {
+                gender = value;
+                OnPropertyChanged("Gender");
+            }
+        }
+
+        public string DateOfBirth
+        {
+            get => date_of_birth;
+            set
+            {
+                date_of_birth = value;
+                OnPropertyChanged("DateOfBirth");
+            }
+        }
+
+        public int Age
+        {
+            get => age;
+            set
+            {
+                age = value;
+                OnPropertyChanged("Age");
+            }
+        }
+
+        public int GradeAverage
+        {
+            get => grade_average;
+            set
+            {
+                grade_average = value;
+                OnPropertyChanged("GradeAverage");
+            }
+        }
+
+        public int Citizenship
+        {
+            get => citizenship;
+            set { 
+                citizenship = value;
+                OnPropertyChanged("Citizenship");
+            }
+        }
+
+        public int Location
+        {
+            get => location;
+            set
+            {
+                location = value;
+                OnPropertyChanged("Location");
+            }
+        }
+
+        public bool AfterSchool
+        {
+            get => after_school;
+            set
+            {
+                after_school = value;
+                OnPropertyChanged("AfterSchool");
+            }
+
+        }
+
+        public int Documents
+        {
+            get => documents;
+            set
+            {
+                documents = value;
+                OnPropertyChanged("Documents");
+            }
+        } 
+
+        #endregion
+
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            if (PropertyChanged != null) 
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+        
+    }
+}
