@@ -24,8 +24,14 @@ namespace AdmissionCommittee
         public EntrantWindow(Entrant entrant)
         {
             InitializeComponent();
+
+            gendersComboBox.ItemsSource = new string[]
+            {
+                "Мужской", "Женский"
+            };
             Entrant = entrant;
             DataContext = Entrant;
+
         }
 
         void Accept_Click(object sender, RoutedEventArgs e)

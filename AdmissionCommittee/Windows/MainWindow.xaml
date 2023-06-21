@@ -14,10 +14,13 @@
         <ListBox x:Name="entrantsList" ItemsSource="{Binding}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}" FontSize="16" />
-                        <TextBlock Text="{Binding Age}" FontSize="13" />
-                    </StackPanel>
+                    <TextBlock>
+                        <Run FontSize="16" Text="{Binding LastName}"></Run>
+                        <Run FontSize="16" Text="{Binding FirstName}"></Run>
+                        <Run FontSize="16" Text="{Binding Patronymic}"></Run>
+                        <Run FontSize="16" Text="Пол: "></Run>
+                        <Run FontSize="16" Text="{Binding Gender}"></Run>
+                    </TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

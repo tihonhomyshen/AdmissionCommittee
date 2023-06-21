@@ -25,6 +25,7 @@ namespace AdmissionCommittee
         ApplicationContext db = new ApplicationContext();
         public MainWindow()
         {
+  
             InitializeComponent();
 
             Loaded += MainWindow_Loaded;
