@@ -19,7 +19,7 @@ namespace AdmissionCommittee.Models
         private int age;
         private double grade_average;
         private string citizenship;
-        private int location;
+        private string location;
         private bool after_school;
         private int documents;
 
@@ -101,7 +101,7 @@ namespace AdmissionCommittee.Models
             }
         }
 
-        public int Location
+        public string Location
         {
             get => location;
             set
