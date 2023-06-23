@@ -16,7 +16,10 @@
         <Style TargetType="Button">
             <Setter Property="MinWidth" Value="60" />
             <Setter Property="Margin" Value="8" />
-
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="144"/>
         </Style>
     </Window.Resources>
     <Grid>
@@ -52,17 +55,17 @@
         <TextBlock Text="Документы" Grid.Row="10" />
         
         
-        <TextBox Text="{Binding FirstName}" Grid.Column="1" />
-        <TextBox Text="{Binding LastName}" Grid.Column="1" Grid.Row="1" />
+        <TextBox Text="{Binding LastName}" Grid.Column="1" Grid.Row="0" />
+        <TextBox Text="{Binding FirstName}" Grid.Column="1" Grid.Row="1"/>
         <TextBox Text="{Binding Patronymic}" Grid.Column="1" Grid.Row="2" />
-        <ComboBox Grid.Column="1" Grid.Row="3" x:Name="gendersComboBox" Height="30" Width="144" SelectedValue="{Binding Gender}">
+        <ComboBox Grid.Column="1" Grid.Row="3" x:Name="gendersComboBox" SelectedValue="{Binding Gender}"/>
 
-        </ComboBox>
+
         <TextBox Text="{Binding DateOfBirth}" Grid.Column="1" Grid.Row="4" />
-        <TextBox Text="{Binding Age}" Grid.Column="1" Grid.Row="5" IsEnabled="False"/>
+        <TextBox Text="{Binding Age}" Grid.Column="1" Grid.Row="5" IsEnabled="False" />
         <TextBox Text="{Binding GradeAverage}" Grid.Column="1" Grid.Row="6" />
-        <TextBox Text="{Binding Citizenship}" Grid.Column="1" Grid.Row="7" />
-        <TextBox Text="{Binding Location}" Grid.Column="1" Grid.Row="8" />
+        <ComboBox Grid.Column="1" Grid.Row="7" x:Name="citizenshipComboBox" SelectedValue="{Binding Citizenship}"/>
+        <ComboBox Grid.Column="1" Grid.Row="8" />
         <TextBox Text="{Binding AfterSchool}" Grid.Column="1" Grid.Row="9" />
         <TextBox Text="{Binding Documents}" Grid.Column="1" Grid.Row="10" />
         

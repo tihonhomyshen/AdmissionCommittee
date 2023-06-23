@@ -1,4 +1,5 @@
 ﻿using AdmissionCommittee.Models;
+using Microsoft.Windows.Themes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,16 @@ namespace AdmissionCommittee
             {
                 "Мужской", "Женский"
             };
+
+
+            citizenshipComboBox.ItemsSource = new string[]
+            {
+                "Россия", "Армения", "Азербайджан", "Беларусь", "Казахстан",
+                "Кыргызстан", "Узбекистан", "Таджикистан",
+            };
+
+
+
             Entrant = entrant;
             DataContext = Entrant;
 
@@ -38,5 +49,17 @@ namespace AdmissionCommittee
         {
             DialogResult = true;
         }
+
+        //public static int GetAge(string DateOfBirth)
+        //{
+        //    var now = DateTime.Today;
+        //    DateTime dateTime = DateTime.Parse(DateOfBirth);
+        //    return now.Year - dateTime.Year - 1 + ((now.Month > dateTime.Month || now.Month == dateTime.Month && now.Day >= dateTime.Day) ? 1 : 0);
+        //}
+
+        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    GetAge(Entrant.DateOfBirth);
+        //}
+        }
     }
-}

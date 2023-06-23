@@ -57,8 +57,8 @@ namespace AdmissionCommittee
             EntrantWindow EntrantWindow = new EntrantWindow(new Entrant
             {
                 Id = entrant.Id,
-                FirstName = entrant.FirstName, 
                 LastName = entrant.LastName,
+                FirstName = entrant.FirstName, 
                 Patronymic = entrant.Patronymic,
                 Gender = entrant.Gender,
                 DateOfBirth = entrant.DateOfBirth,

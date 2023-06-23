@@ -11,14 +11,14 @@ namespace AdmissionCommittee.Models
     public class Entrant: INotifyPropertyChanged
     {
         public int Id { get; set; }
-        private string first_name;
         private string last_name;
+        private string first_name;
         private string patronymic;
         private string gender;
         private string date_of_birth;
         private int age;
-        private int grade_average;
-        private int citizenship;
+        private double grade_average;
+        private string citizenship;
         private int location;
         private bool after_school;
         private int documents;
@@ -82,7 +82,7 @@ namespace AdmissionCommittee.Models
             }
         }
 
-        public int GradeAverage
+        public double GradeAverage
         {
             get => grade_average;
             set
@@ -92,7 +92,7 @@ namespace AdmissionCommittee.Models
             }
         }
 
-        public int Citizenship
+        public string Citizenship
         {
             get => citizenship;
             set { 
@@ -135,13 +135,13 @@ namespace AdmissionCommittee.Models
         #endregion
 
 
-
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {
             if (PropertyChanged != null) 
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
-        
+
     }
 }
+
