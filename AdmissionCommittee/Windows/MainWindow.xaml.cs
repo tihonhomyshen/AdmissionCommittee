@@ -106,7 +106,8 @@ namespace AdmissionCommittee
             try
             {
                 entrantsList.ItemsSource = db.Entrants.Where(item => item.FirstName == Search_TBox.Text || item.FirstName.Contains(Search_TBox.Text)
-                    || item.LastName == Search_TBox.Text || item.LastName.Contains(Search_TBox.Text)).ToList();  
+                    || item.LastName == Search_TBox.Text || item.LastName.Contains(Search_TBox.Text) || item.Gender == Search_TBox.Text || item.Gender.Contains(Search_TBox.Text)).ToList();
+                    
             }
 
             catch (Exception ex){ 
