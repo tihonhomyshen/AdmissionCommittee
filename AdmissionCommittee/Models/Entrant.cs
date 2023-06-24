@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace AdmissionCommittee.Models
 {
     public class Entrant: INotifyPropertyChanged
     {
+        [SQLite.PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         private string last_name;
         private string first_name;
@@ -20,7 +23,7 @@ namespace AdmissionCommittee.Models
         private double grade_average;
         private string citizenship;
         private string location;
-        private bool after_school;
+        private string after_school;
         private int documents;
 
         #region Fields
@@ -111,7 +114,7 @@ namespace AdmissionCommittee.Models
             }
         }
 
-        public bool AfterSchool
+        public string AfterSchool
         {
             get => after_school;
             set

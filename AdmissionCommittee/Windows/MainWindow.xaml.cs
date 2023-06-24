@@ -100,5 +100,17 @@ namespace AdmissionCommittee
             db.Entrants.Remove(entrant);
             db.SaveChanges();
         }
+
+        private void Search_TBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                entrantsList.ItemsSource = db.Entrants.Where(item => item.FirstName == Search_TBox.Text).ToList();  
+            }
+
+            catch (Exception ex){ 
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
