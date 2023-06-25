@@ -220,6 +220,7 @@ namespace AdmissionCommittee
                 var age = today.Year - birthDate.Year;
                 if (birthDate > today.AddYears(-age)) age--;
                 AgeBox.Text = age.ToString();
+                Entrant.Age = Int32.Parse(AgeBox.Text);
             }
         }
     }
