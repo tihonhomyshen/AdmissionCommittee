@@ -1,11 +1,13 @@
 ﻿using AdmissionCommittee.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Office.Interop.Excel;
 using Microsoft.Win32;
 using Microsoft.Windows.Themes;
 using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,7 +26,7 @@ namespace AdmissionCommittee
     /// <summary>
     /// Логика взаимодействия для EntrantWindow.xaml
     /// </summary>
-    public partial class EntrantWindow : Window
+    public partial class EntrantWindow : System.Windows.Window
     {
         public Entrant Entrant { get; private set; }
         public EntrantWindow(Entrant entrant)

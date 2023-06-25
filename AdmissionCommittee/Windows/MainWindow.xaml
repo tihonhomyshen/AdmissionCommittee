@@ -30,12 +30,17 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
-                        <Run FontSize="16" Text="{Binding Id}"></Run>
-                        <Run FontSize="16" Text="{Binding LastName}"></Run>
-                        <Run FontSize="16" Text="{Binding FirstName}"></Run>
-                        <Run FontSize="16" Text="{Binding Patronymic}"></Run>
-                        <Run FontSize="16" Text="Пол: "></Run>
-                        <Run FontSize="16" Text="{Binding Gender}"></Run>
+                        <Run FontSize="14" Text="{Binding Id}"></Run>
+                        <Run FontSize="14" Text="{Binding LastName}"></Run>
+                        <Run FontSize="14" Text="{Binding FirstName}"></Run>
+                        <Run FontSize="14" Text="{Binding Patronymic}"></Run>
+                        <Run FontSize="14" Text=" ,Пол:"></Run>
+                        <Run FontSize="14" Text="{Binding Gender}"></Run>
+                        <Run FontSize="14" Text="{Binding Speciality}"></Run>
+                        <Run FontSize="14" Text=",Ср.балл:"></Run>
+                        <Run FontSize="14" Text="{Binding GradeAverage}"></Run>
+                        <Run FontSize="14" Text=",Зачислен:"></Run>
+                        <Run FontSize="14" Text="{Binding Enrollment}"></Run>
                     </TextBlock>
                 </DataTemplate>
             </ListView.ItemTemplate>

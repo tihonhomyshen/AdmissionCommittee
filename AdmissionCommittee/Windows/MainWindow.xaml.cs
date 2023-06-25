@@ -239,7 +239,7 @@ namespace AdmissionCommittee
             }
             catch
             {
-
+                MessageBox.Show("Не удалось создать");
             }
         }
 
