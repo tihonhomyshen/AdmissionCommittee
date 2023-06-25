@@ -1,8 +1,15 @@
 ﻿using AdmissionCommittee.Models;
+using Microsoft.Office.Interop.Excel;
+using Microsoft.Win32;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.IO;
+using System.IO.Enumeration;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +27,10 @@ namespace AdmissionCommittee
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         ApplicationContext db = new ApplicationContext();
+
         public MainWindow()
         {
   
@@ -71,11 +79,14 @@ namespace AdmissionCommittee
                 AfterSchool = entrant.AfterSchool,
                 EducationPlace = entrant.EducationPlace,
                 Speciality = entrant.Speciality,
+                SNILS = entrant.SNILS,
                 Disable = entrant.Disable,
                 Orphan = entrant.Orphan,
                 Status = entrant.Status,
                 Enrollment = entrant.Enrollment,
                 Year = entrant.Year,
+                OrphanImg = entrant.OrphanImg,
+                DisableImg = entrant.DisableImg,
             });
 
             if (EntrantWindow.ShowDialog() == true)
@@ -103,6 +114,8 @@ namespace AdmissionCommittee
                     entrant.Orphan = EntrantWindow.Entrant.Orphan;
                     entrant.Status = EntrantWindow.Entrant.Status;
                     entrant.Year = EntrantWindow.Entrant.Year;
+                    entrant.OrphanImg = EntrantWindow.Entrant.OrphanImg;
+                    entrant.DisableImg = EntrantWindow.Entrant.DisableImg;
 
                     db.SaveChanges();
                     entrantsList.Items.Refresh();
@@ -117,6 +130,86 @@ namespace AdmissionCommittee
             db.Entrants.Remove(entrant);
             db.SaveChanges();
         }
+
+        private void Excel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ObservableCollection<Entrant> entrants = db.Entrants.Local.ToObservableCollection();
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                string fileName = "Entrants";
+                FileInfo newFile = new FileInfo(@".\\..\\..\\..\" + fileName + ".xlsx");
+
+
+
+                using (ExcelPackage exlpck = new ExcelPackage(newFile))
+                {
+                    ExcelWorksheet worksheet = exlpck.Workbook.Worksheets.Add("Entrants");
+                    worksheet.Cells[1, 1].Value = "Id";
+                    worksheet.Cells[1, 2].Value = "Имя";
+                    worksheet.Cells[1, 4].Value = "Фамилия";
+                    worksheet.Cells[1, 5].Value = "Отчество";
+                    worksheet.Cells[1, 6].Value = "Пол";
+                    worksheet.Cells[1, 7].Value = "Дата рождения";
+                    worksheet.Cells[1, 8].Value = "Возраст";
+                    worksheet.Cells[1, 9].Value = "Ср.балл";
+                    worksheet.Cells[1, 10].Value = "Гражданство";
+                    worksheet.Cells[1, 11].Value = "Гр. другое";
+                    worksheet.Cells[1, 12].Value = "Субъект РФ";
+                    worksheet.Cells[1, 13].Value = "Регион/город";
+                    worksheet.Cells[1, 14].Value = "После 9/11";
+                    worksheet.Cells[1, 15].Value = "Место обучения";
+                    worksheet.Cells[1, 16].Value = "Специальность";
+                    worksheet.Cells[1, 17].Value = "Инвалидность";
+                    worksheet.Cells[1, 18].Value = "Сирота";
+                    worksheet.Cells[1, 19].Value = "Поступил";
+                    worksheet.Cells[1, 20].Value = "Год";
+                    worksheet.Cells[1, 21].Value = "СНИЛС";
+                    worksheet.Cells[1, 22].Value = "пр.Сирота";
+                    worksheet.Cells[1, 23].Value = "пр.Инвалидность";
+                    for (int i = 0; i < entrants.Count; i++)
+                    {
+                        worksheet.Cells[i + 2, 1].Value = entrants[i].Id.ToString();
+                        worksheet.Cells[i + 2, 2].Value = entrants[i].FirstName;
+                        worksheet.Cells[i + 2, 3].Value = entrants[i].LastName;
+                        worksheet.Cells[i + 2, 4].Value = entrants[i].Patronymic;
+                        worksheet.Cells[i + 2, 5].Value = entrants[i].Gender;
+                        worksheet.Cells[i + 2, 6].Value = entrants[i].DateOfBirth;
+                        worksheet.Cells[i + 2, 7].Value = entrants[i].Age;
+                        worksheet.Cells[i + 2, 8].Value = entrants[i].GradeAverage;
+                        worksheet.Cells[i + 2, 9].Value = entrants[i].Citizenship;
+                        worksheet.Cells[i + 2, 10].Value = entrants[i].CitizenshipDiff;
+                        worksheet.Cells[i + 2, 11].Value = entrants[i].Location;
+                        worksheet.Cells[i + 2, 12].Value = entrants[i].Region;
+                        worksheet.Cells[i + 2, 13].Value = entrants[i].AfterSchool;
+                        worksheet.Cells[i + 2, 14].Value = entrants[i].EducationPlace;
+                        worksheet.Cells[i + 2, 15].Value = entrants[i].Speciality;
+                        worksheet.Cells[i + 2, 16].Value = entrants[i].Disable;
+                        worksheet.Cells[i + 2, 17].Value = entrants[i].Orphan;
+                        worksheet.Cells[i + 2, 18].Value = entrants[i].Status;
+                        worksheet.Cells[i + 2, 19].Value = entrants[i].Enrollment;
+                        worksheet.Cells[i + 2, 20].Value = entrants[i].Year;
+                        worksheet.Cells[i + 2, 21].Value = entrants[i].SNILS;
+                        if (entrants[i].OrphanImg != null && entrants[i].OrphanImg.Length > 0)
+                        {
+                            worksheet.Cells[i + 2, 22].Value = "Да";
+                        }
+                        if (entrants[i].DisableImg != null && entrants[i].DisableImg.Length > 0)
+                        {
+                            worksheet.Cells[i + 2, 23].Value = "Да";
+                        }
+                    }
+                    exlpck.Save();
+                }
+                MessageBox.Show("Создался файл" + fileName);
+            }
+            catch
+            {
+
+            }
+        }
+
+
 
         private void Search_TBox_TextChanged(object sender, TextChangedEventArgs e)
         {

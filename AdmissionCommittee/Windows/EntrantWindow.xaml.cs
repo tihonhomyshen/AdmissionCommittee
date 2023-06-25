@@ -36,7 +36,7 @@ namespace AdmissionCommittee
                 "Мужской", "Женский"
             };
 
-            orphaneComboBox.ItemsSource = new string[]
+            orphanComboBox.ItemsSource = new string[]
             {
                 "Да", "Нет"
             };
@@ -168,15 +168,46 @@ namespace AdmissionCommittee
             else { EducationTextBox.IsEnabled = false; EducationTextBox.Text = ""; }
         }
 
-        private void ImageAdd_Click(object sender, RoutedEventArgs e)
+        private void OrphanAdd_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
             if (openFileDialog.ShowDialog() == true)
             {
-                string fileName = openFileDialog.FileName;
-                byte[] fileData = File.ReadAllBytes(fileName);
-                using (SQLiteConnection connection = new SQLiteConnection("Data Source=admissioncommittee.db")
+                string imagePath = openFileDialog.FileName;
+                byte[] imageBytes = File.ReadAllBytes(imagePath);
+                Entrant.OrphanImg = imageBytes;
             }
+        }
+
+        private void DisableAdd_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string imagePath = openFileDialog.FileName;
+                byte[] imageBytes = File.ReadAllBytes(imagePath);
+                Entrant.DisableImg = imageBytes;
+            }
+        }
+
+        private void orphanComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (orphanComboBox.SelectedValue != null && orphanComboBox.SelectedValue.ToString() == "Да")
+            {
+                OrphanButton.IsEnabled = true;
+            }
+            else {  OrphanButton.IsEnabled = false;}
+        }
+
+        private void disableComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (disableComboBox.SelectedValue != null && disableComboBox.SelectedValue.ToString() == "Да")
+            {
+                DisableButton.IsEnabled = true;
+            }
+            else { DisableButton.IsEnabled = false; }
         }
     }
 }

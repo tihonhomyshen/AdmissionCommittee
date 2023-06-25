@@ -34,6 +34,8 @@ namespace AdmissionCommittee.Models
         private string enrollment;
         private int year;
         private string snils;
+        private byte[] orphan_img;
+        private byte[] disable_img;
 
         #region Fields
         public string FirstName
@@ -227,6 +229,25 @@ namespace AdmissionCommittee.Models
             {
                 year = value;
                 OnPropertyChanged("Year");
+            }
+        }
+
+        public byte[]? OrphanImg
+        {
+            get => orphan_img;
+            set {
+                orphan_img = value;
+                OnPropertyChanged("OprhanImg");
+            }
+        }
+
+        public byte[]? DisableImg
+        {
+            get => disable_img;
+            set 
+            { 
+                disable_img = value; 
+                OnPropertyChanged("DisableImg"); 
             }
         }
 

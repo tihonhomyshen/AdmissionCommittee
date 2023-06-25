@@ -73,22 +73,21 @@
         <TextBox Text="{Binding Age}" Grid.Column="1" Grid.Row="5" IsEnabled="False" />
         <TextBox Text="{Binding GradeAverage}" Grid.Column="1" Grid.Row="6" />
         <ComboBox Grid.Column="1" Grid.Row="7" x:Name="citizenshipComboBox" SelectedValue="{Binding Citizenship}" SelectionChanged="citizenshipComboBox_SelectionChanged" />
-        <TextBox Grid.Column="2" Grid.Row="7" IsEnabled="False" x:Name="CitizenshipTextBox" Text="{Binding CitezinshipDiff}"></TextBox>
-        <ComboBox Grid.Column="1" Grid.Row="8" x:Name="locationComboBox" SelectedValue ="{Binding Location}" SelectionChanged="locationComboBox_SelectionChanged"/>
-        <ComboBox Grid.Column="2" Grid.Row="8" x:Name="regionComboBox" IsEnabled="False" SelectedValue="{Binding Region}" ></ComboBox>
-        <ComboBox Grid.Column="1" Grid.Row="9" x:Name="afterschoolComboBox" SelectedValue="{Binding AfterSchool}" SelectionChanged="afterschoolComboBox_SelectionChanged"/>
-        <TextBox Grid.Column="2" Grid.Row="9" IsEnabled="False" x:Name="EducationTextBox"></TextBox>
-        <ComboBox Grid.Column="1" Grid.Row="10" x:Name="specialityComboBox" SelectedValue="{Binding Speciality}"></ComboBox>
+        <TextBox Grid.Column="2" Grid.Row="7" IsEnabled="False" x:Name="CitizenshipTextBox" Text="{Binding CitizenshipDiff}"></TextBox>
+        <ComboBox Grid.Column="1" Grid.Row="8" x:Name="locationComboBox" SelectedValue="{Binding Location}" SelectionChanged="locationComboBox_SelectionChanged"/>
+        <ComboBox Grid.Column="2" Grid.Row="8" x:Name="regionComboBox" IsEnabled="False" SelectedValue="{Binding Region }" ></ComboBox>
+        <ComboBox Grid.Column="1" Grid.Row="9" x:Name="afterschoolComboBox" SelectedValue="{Binding AfterSchool }" SelectionChanged="afterschoolComboBox_SelectionChanged"/>
+        <TextBox Grid.Column="2" Grid.Row="9" IsEnabled="False" x:Name="EducationTextBox" Text="{Binding EducationPlace}"></TextBox>
+        <ComboBox Grid.Column="1" Grid.Row="10" x:Name="specialityComboBox" SelectedValue="{Binding Speciality }" ></ComboBox>
         <TextBox Text="{Binding SNILS}" Grid.Column="1" Grid.Row="11" />
-        <ComboBox Grid.Column="1" Grid.Row="12" x:Name="orphaneComboBox" SelectedValue="{Binding Disable}" ></ComboBox>
-        <Button Grid.Column="2" Grid.Row="12" IsEnabled="False">Загрузить фото</Button>
-        <ComboBox Grid.Column="1" Grid.Row="13" x:Name="disableComboBox" SelectedValue="{Binding Orphan}"></ComboBox>
-        <Button Grid.Column="2" Grid.Row="13" IsEnabled="False">Загрузить фото</Button>
+        <ComboBox Grid.Column="1" Grid.Row="12" x:Name="disableComboBox" SelectedValue="{Binding Disable }" SelectionChanged="disableComboBox_SelectionChanged"></ComboBox>
+        <Button Grid.Column="2" Grid.Row="12" IsEnabled="False" Click="OrphanAdd_Click" x:Name="DisableButton">Загрузить фото</Button>
+        <ComboBox Grid.Column="1" Grid.Row="13" x:Name="orphanComboBox" SelectedValue="{Binding Orphan }" SelectionChanged="orphanComboBox_SelectionChanged"></ComboBox>
+        <Button Grid.Column="2" Grid.Row="13" IsEnabled="False" Click="DisableAdd_Click" x:Name="OrphanButton">Загрузить фото</Button>
         <ComboBox Grid.Column="1" Grid.Row="14" x:Name="statusComboBox" SelectedValue="{Binding Status}"></ComboBox>
-        <ComboBox Grid.Column="1" Grid.Row="15" x:Name="enrollmentComboBox" SelectedValue="{Binding Enrollment}"></ComboBox>
+        <ComboBox Grid.Column="1" Grid.Row="15" x:Name="enrollmentComboBox" SelectedValue="{Binding Enrollment }"></ComboBox>
         <TextBox Grid.Column="2" Grid.Row="15" Text="{Binding Year}" FontSize="16" x:Name="Year"></TextBox>
         
-
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="16" Grid.Column="1">
             <Button IsDefault="True" Click="Accept_Click" >OK</Button>
             <Button IsCancel="True" >Отмена</Button>
