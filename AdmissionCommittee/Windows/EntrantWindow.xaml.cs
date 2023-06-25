@@ -1,7 +1,12 @@
 ﻿using AdmissionCommittee.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Win32;
 using Microsoft.Windows.Themes;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,11 +36,37 @@ namespace AdmissionCommittee
                 "Мужской", "Женский"
             };
 
+            orphaneComboBox.ItemsSource = new string[]
+            {
+                "Да", "Нет"
+            };
+
+            statusComboBox.ItemsSource = new string[]
+            {
+                "Бюджетной", "Платной",
+            };
+
+            disableComboBox.ItemsSource = new string[]
+            {
+                "Да", "Нет"
+            };
+
+            enrollmentComboBox.ItemsSource = new string[]
+            {
+                "Да", "Нет"
+            };
 
             citizenshipComboBox.ItemsSource = new string[]
             {
                 "Россия", "Армения", "Азербайджан", "Беларусь", "Казахстан",
                 "Кыргызстан", "Узбекистан", "Таджикистан", "Другие",
+            };
+
+            specialityComboBox.ItemsSource = new string[]
+            {
+                "Специальность 07.02.01 - «Архитектура»", "Специальность 21.02.09 - «Гидрогеология и инженерная геология»",
+                "Специальность 09.02.07 - «Информационные системы и программирование»", "Специальность 08.02.01 - «Строительство и эксплуатация зданий и сооружений»",
+                "Специальность 11.02.17 - «Разработка электронных устройств и систем»", "Специальность 38.02.01 - «Экономика и бухгалтерский учет» (по отраслям)»",
             };
 
             locationComboBox.ItemsSource = new string[]
@@ -58,7 +89,7 @@ namespace AdmissionCommittee
                 "Сахалинская область", "Свердловская область", "Смоленская область", "Тамбовская область", "Тверская область",
                 "Томская область", "Тульская область", "Тюменская область", "Ульяновская область", "Херсонская область", 
                 "Челябинская область", "Ярославская область", "Москва", "Санкт-Петербург", "Севастополь", "Еврейская АО",
-                "Ненецкий АО", "Ханты-Мансийский АО", "Чукотский АО", "Ямало-Ненецкий АО",
+                "Ненецкий АО", "Ханты-Мансийский АО", "Чукотский АО", "Ямало-Ненецкий АО", "Иностранный гражданин",
             };
 
             afterschoolComboBox.ItemsSource = new string[]
@@ -98,5 +129,54 @@ namespace AdmissionCommittee
         //{
         //    GetAge(Entrant.DateOfBirth);
         //}
+
+        private void citizenshipComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Если выбрано "Другие" -> текстбокс для записи гос-ва, иначе очищается
+            if (citizenshipComboBox.SelectedValue != null && citizenshipComboBox.SelectedValue.ToString() == "Другие") {
+                CitizenshipTextBox.IsEnabled = true;
+            }
+
+            else { CitizenshipTextBox.IsEnabled = false; CitizenshipTextBox.Text = "";  }
+
+
+            // Автоматическое выставление полей для иностранных гражданинов (ин.гр. _ locationCombobox)
+
+            if (e.AddedItems.Count > 0 && e.AddedItems[0].ToString() == "Другие") {
+                CitizenshipTextBox.Text = string.Empty;
+            }
+        }
+
+
+
+        private void locationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (locationComboBox.SelectedValue != null && locationComboBox.SelectedValue.ToString() == "Костромская область")
+            {
+                regionComboBox.IsEnabled = true;
+            }
+            else {  regionComboBox.IsEnabled = false; regionComboBox.Text = ""; }
+        }
+
+        private void afterschoolComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            if (afterschoolComboBox.SelectedValue != null && afterschoolComboBox.SelectedValue.ToString() == "Обучался в другом месте")
+            {
+                EducationTextBox.IsEnabled = true;
+            }
+            else { EducationTextBox.IsEnabled = false; EducationTextBox.Text = ""; }
+        }
+
+        private void ImageAdd_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string fileName = openFileDialog.FileName;
+                byte[] fileData = File.ReadAllBytes(fileName);
+                using (SQLiteConnection connection = new SQLiteConnection("Data Source=admissioncommittee.db")
+            }
+        }
     }
-    }
+}

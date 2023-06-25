@@ -65,9 +65,17 @@ namespace AdmissionCommittee
                 Age = entrant.Age,
                 GradeAverage = entrant.GradeAverage,
                 Citizenship = entrant.Citizenship,
+                CitizenshipDiff = entrant.CitizenshipDiff,
                 Location = entrant.Location,
+                Region = entrant.Region,
                 AfterSchool = entrant.AfterSchool,
-                Documents = entrant.Documents
+                EducationPlace = entrant.EducationPlace,
+                Speciality = entrant.Speciality,
+                Disable = entrant.Disable,
+                Orphan = entrant.Orphan,
+                Status = entrant.Status,
+                Enrollment = entrant.Enrollment,
+                Year = entrant.Year,
             });
 
             if (EntrantWindow.ShowDialog() == true)
@@ -83,9 +91,18 @@ namespace AdmissionCommittee
                     entrant.Age = EntrantWindow.Entrant.Age;
                     entrant.GradeAverage = EntrantWindow.Entrant.GradeAverage;
                     entrant.Citizenship = EntrantWindow.Entrant.Citizenship;
+                    entrant.CitizenshipDiff = EntrantWindow.Entrant.CitizenshipDiff;
                     entrant.Location = EntrantWindow.Entrant.Location;
+                    entrant.Region = EntrantWindow.Entrant.Region;
                     entrant.AfterSchool = EntrantWindow.Entrant.AfterSchool;
-                    entrant.Documents = EntrantWindow.Entrant.Documents;
+                    entrant.EducationPlace = EntrantWindow.Entrant.EducationPlace;
+                    entrant.SNILS = EntrantWindow.Entrant.SNILS;
+                    entrant.Speciality = EntrantWindow.Entrant.Speciality;
+                    entrant.Disable = EntrantWindow.Entrant.Disable;
+                    entrant.Enrollment = EntrantWindow.Entrant.Enrollment;
+                    entrant.Orphan = EntrantWindow.Entrant.Orphan;
+                    entrant.Status = EntrantWindow.Entrant.Status;
+                    entrant.Year = EntrantWindow.Entrant.Year;
 
                     db.SaveChanges();
                     entrantsList.Items.Refresh();
@@ -106,7 +123,8 @@ namespace AdmissionCommittee
             try
             {
                 entrantsList.ItemsSource = db.Entrants.Where(item => item.FirstName == Search_TBox.Text || item.FirstName.Contains(Search_TBox.Text)
-                    || item.LastName == Search_TBox.Text || item.LastName.Contains(Search_TBox.Text) || item.Gender == Search_TBox.Text || item.Gender.Contains(Search_TBox.Text)).ToList();
+                    || item.LastName == Search_TBox.Text || item.LastName.Contains(Search_TBox.Text) 
+                    || item.Gender == Search_TBox.Text || item.Gender.Contains(Search_TBox.Text)).ToList();
                     
             }
 

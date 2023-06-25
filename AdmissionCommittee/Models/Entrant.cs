@@ -22,9 +22,18 @@ namespace AdmissionCommittee.Models
         private int age;
         private double grade_average;
         private string citizenship;
+        private string citezenshipdiff;
         private string location;
+        private string region;
         private string after_school;
-        private int documents;
+        private string educationplace;
+        private string speciality;
+        private string disable;
+        private string orphan;
+        private string status;
+        private string enrollment;
+        private int year;
+        private string snils;
 
         #region Fields
         public string FirstName
@@ -104,6 +113,14 @@ namespace AdmissionCommittee.Models
             }
         }
 
+        public string? CitizenshipDiff
+        {
+            get => citezenshipdiff;
+            set { citezenshipdiff = value;
+                OnPropertyChanged("CitizenshipDiff");
+            }
+        }
+
         public string Location
         {
             get => location;
@@ -111,6 +128,16 @@ namespace AdmissionCommittee.Models
             {
                 location = value;
                 OnPropertyChanged("Location");
+            }
+        }
+
+        public string? Region
+        {
+            get => region;
+            set
+            {
+                region = value;
+                OnPropertyChanged("Region");
             }
         }
 
@@ -125,15 +152,83 @@ namespace AdmissionCommittee.Models
 
         }
 
-        public int Documents
+        public string? EducationPlace
         {
-            get => documents;
+            get => educationplace;
             set
             {
-                documents = value;
-                OnPropertyChanged("Documents");
+                educationplace = value;
+                OnPropertyChanged("EducationPlace");
+            }
+        }
+
+        public string SNILS
+        {
+            get => snils;
+            set
+            {
+                snils = value;
+                OnPropertyChanged("SNILS");
             }
         } 
+
+        public string Speciality
+        {
+            get => speciality;
+            set { speciality = value;
+                OnPropertyChanged("Speciality");
+            }
+        }
+
+        public string Disable
+        {
+            get => disable;
+            set
+            {
+                disable = value;
+                OnPropertyChanged("Disable");
+            }
+        }
+
+        public string Orphan
+        {
+            get => orphan;
+            set
+            {
+                orphan = value;
+                OnPropertyChanged("Orphan");
+            }
+        }
+
+        public string Status
+        {
+            get => status;
+            set
+            {
+                status = value;
+                OnPropertyChanged("Status");
+            }
+        }
+
+        public string Enrollment
+        {
+            get => enrollment;
+            set
+            {
+                enrollment = value;
+                OnPropertyChanged("Enrollment");
+            }
+        }
+
+        public int Year
+        {
+            get => year;
+            set
+            {
+                year = value;
+                OnPropertyChanged("Year");
+            }
+        }
 
         #endregion
 
