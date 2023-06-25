@@ -5,6 +5,7 @@ using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Globalization;
 using System.IO;
@@ -139,7 +140,7 @@ namespace AdmissionCommittee
             try
             {
                 ObservableCollection<Entrant> entrants = db.Entrants.Local.ToObservableCollection();
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
                 string fileName = "Абитуриенты";
                 string filePath = @".\\..\\..\\..\" + fileName + ".xlsx";
 
