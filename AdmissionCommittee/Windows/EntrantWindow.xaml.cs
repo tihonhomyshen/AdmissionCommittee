@@ -211,5 +211,21 @@ namespace AdmissionCommittee
             }
             else { DisableButton.IsEnabled = false; }
         }
+
+        private void DateOfBirth_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var culture = CultureInfo.InvariantCulture;
+            if (DateTime.TryParseExact(DateOfBirth.Text, "dd.MM.yyyy", culture, DateTimeStyles.None, out var dateOfBirth))
+            {
+                AgeBox.Text = CalculateAge(dateOfBirth).ToString();
+            }
+        }
+
+        public static int CalculateAge(DateTime dateOfBirth)
+        {
+            var now = DateTime.Today;
+            return now.Year - dateOfBirth.Year - 1 + ((now.Month > dateOfBirth.Month || now.Month == dateOfBirth.Month && now.Day >= dateOfBirth.Day) ? 1 : 0);
+        }
+
     }
 }

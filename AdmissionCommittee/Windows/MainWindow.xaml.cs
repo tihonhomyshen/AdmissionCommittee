@@ -44,7 +44,7 @@ namespace AdmissionCommittee
         {
             db.Database.EnsureCreated();
             db.Entrants.Load();
-            DataContext = db.Entrants.Local.ToObservableCollection();
+            entrantsDataGrid.ItemsSource = db.Entrants.Local.ToObservableCollection();
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -58,27 +58,11 @@ namespace AdmissionCommittee
             }
         }
 
-        public class FirstCharConverter : IValueConverter
-        {
-            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                if (value is string stringValue && !string.IsNullOrEmpty(stringValue))
-                {
-                    return stringValue[0];
-                }
 
-                return null;
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            Entrant? entrant = entrantsList.SelectedItem as Entrant;
+            Entrant? entrant = entrantsDataGrid.SelectedItem as Entrant;
             if (entrant is null) return;
 
             EntrantWindow EntrantWindow = new EntrantWindow(new Entrant
@@ -137,14 +121,14 @@ namespace AdmissionCommittee
                     entrant.DisableImg = EntrantWindow.Entrant.DisableImg;
 
                     db.SaveChanges();
-                    entrantsList.Items.Refresh();
+                    entrantsDataGrid.Items.Refresh();
                 }
             }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            Entrant? entrant = entrantsList.SelectedItem as Entrant;
+            Entrant? entrant = entrantsDataGrid.SelectedItem as Entrant;
             if (entrant is null) return;
             db.Entrants.Remove(entrant);
             db.SaveChanges();
@@ -171,26 +155,26 @@ namespace AdmissionCommittee
                     ExcelWorksheet worksheet = exlpck.Workbook.Worksheets.Add("Абитуриенты");
                     worksheet.Cells[1, 1].Value = "Id";
                     worksheet.Cells[1, 2].Value = "Имя";
-                    worksheet.Cells[1, 4].Value = "Фамилия";
-                    worksheet.Cells[1, 5].Value = "Отчество";
-                    worksheet.Cells[1, 6].Value = "Пол";
-                    worksheet.Cells[1, 7].Value = "Дата рождения";
-                    worksheet.Cells[1, 8].Value = "Возраст";
-                    worksheet.Cells[1, 9].Value = "Ср.балл";
-                    worksheet.Cells[1, 10].Value = "Гражданство";
-                    worksheet.Cells[1, 11].Value = "Гр. другое";
-                    worksheet.Cells[1, 12].Value = "Субъект РФ";
-                    worksheet.Cells[1, 13].Value = "Регион/город";
-                    worksheet.Cells[1, 14].Value = "После 9/11";
-                    worksheet.Cells[1, 15].Value = "Место обучения";
-                    worksheet.Cells[1, 16].Value = "Специальность";
+                    worksheet.Cells[1, 3].Value = "Фамилия";
+                    worksheet.Cells[1, 4].Value = "Отчество";
+                    worksheet.Cells[1, 5].Value = "Пол";
+                    worksheet.Cells[1, 6].Value = "Дата рождения";
+                    worksheet.Cells[1, 7].Value = "Возраст";
+                    worksheet.Cells[1, 8].Value = "Ср.балл";
+                    worksheet.Cells[1, 9].Value = "Гражданство";
+                    worksheet.Cells[1, 10].Value = "Гр. другое";
+                    worksheet.Cells[1, 11].Value = "Субъект РФ";
+                    worksheet.Cells[1, 12].Value = "Регион/город";
+                    worksheet.Cells[1, 13].Value = "После 9/11";
+                    worksheet.Cells[1, 14].Value = "Место обучения";
+                    worksheet.Cells[1, 15].Value = "Специальность";
+                    worksheet.Cells[1, 16].Value = "СНИЛС";
                     worksheet.Cells[1, 17].Value = "Инвалидность";
                     worksheet.Cells[1, 18].Value = "Сирота";
                     worksheet.Cells[1, 19].Value = "Поступил";
                     worksheet.Cells[1, 20].Value = "Год";
-                    worksheet.Cells[1, 21].Value = "СНИЛС";
-                    worksheet.Cells[1, 22].Value = "пр.Сирота";
-                    worksheet.Cells[1, 23].Value = "пр.Инвалидность";
+                    worksheet.Cells[1, 21].Value = "пр.Сирота";
+                    worksheet.Cells[1, 22].Value = "пр.Инвалидность";
                     for (int i = 0; i < entrants.Count; i++)
                     {
                         worksheet.Cells[i + 2, 1].Value = entrants[i].Id.ToString();
@@ -208,12 +192,11 @@ namespace AdmissionCommittee
                         worksheet.Cells[i + 2, 13].Value = entrants[i].AfterSchool;
                         worksheet.Cells[i + 2, 14].Value = entrants[i].EducationPlace;
                         worksheet.Cells[i + 2, 15].Value = entrants[i].Speciality;
-                        worksheet.Cells[i + 2, 16].Value = entrants[i].Disable;
-                        worksheet.Cells[i + 2, 17].Value = entrants[i].Orphan;
-                        worksheet.Cells[i + 2, 18].Value = entrants[i].Status;
+                        worksheet.Cells[i + 2, 16].Value = entrants[i].SNILS;
+                        worksheet.Cells[i + 2, 17].Value = entrants[i].Disable;
+                        worksheet.Cells[i + 2, 18].Value = entrants[i].Orphan;
                         worksheet.Cells[i + 2, 19].Value = entrants[i].Enrollment;
                         worksheet.Cells[i + 2, 20].Value = entrants[i].Year;
-                        worksheet.Cells[i + 2, 21].Value = entrants[i].SNILS;
                         if (entrants[i].OrphanImg != null && entrants[i].OrphanImg.Length > 0)
                         {
                             worksheet.Cells[i + 2, 22].Value = "Да";
@@ -245,11 +228,12 @@ namespace AdmissionCommittee
 
 
 
+
         private void Search_TBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
-                entrantsList.ItemsSource = db.Entrants.Where(item => item.FirstName == Search_TBox.Text || item.FirstName.Contains(Search_TBox.Text)
+                entrantsDataGrid.ItemsSource = db.Entrants.Where(item => item.FirstName == Search_TBox.Text || item.FirstName.Contains(Search_TBox.Text)
                     || item.LastName == Search_TBox.Text || item.LastName.Contains(Search_TBox.Text) 
                     || item.Gender == Search_TBox.Text || item.Gender.Contains(Search_TBox.Text)).ToList();
                     

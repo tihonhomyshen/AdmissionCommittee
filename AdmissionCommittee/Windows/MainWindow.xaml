@@ -26,25 +26,31 @@
             <TextBox Width="300" FontSize="16" Name="Search_TBox" TextChanged="Search_TBox_TextChanged" Margin="8"></TextBox>
             
         </StackPanel>
-        <ListView x:Name="entrantsList" ItemsSource="{Binding}" Grid.Row="1" BorderThickness="0">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock>
-                        <Run FontSize="14" Text="{Binding Id}"></Run>
-                        <Run FontSize="14" Text="{Binding LastName}"></Run>
-                        <Run FontSize="14" Text="{Binding FirstName}"></Run>
-                        <Run FontSize="14" Text="{Binding Patronymic}"></Run>
-                        <Run FontSize="14" Text=" ,Пол:"></Run>
-                        <Run FontSize="14" Text="{Binding Gender}"></Run>
-                        <Run FontSize="14" Text="{Binding Speciality}"></Run>
-                        <Run FontSize="14" Text=",Ср.балл:"></Run>
-                        <Run FontSize="14" Text="{Binding GradeAverage}"></Run>
-                        <Run FontSize="14" Text=",Зачислен:"></Run>
-                        <Run FontSize="14" Text="{Binding Enrollment}"></Run>
-                    </TextBlock>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <DataGrid ItemsSource="{Binding Students}" AutoGenerateColumns="False" x:Name="entrantsDataGrid" Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" />
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}" />
+                <DataGridTextColumn Header="Пол" Binding="{Binding Gender}" />
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding DateOfBirth}" />
+                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" />
+                <DataGridTextColumn Header="Ср.балл" Binding="{Binding GradeAverage}" />
+                <DataGridTextColumn Header="Гражданство" Binding="{Binding Citizenship}" />
+                <DataGridTextColumn Header="Гражданство(др.)" Binding="{Binding CitizenshipDiff}" />
+                <DataGridTextColumn Header="Субъект" Binding="{Binding Location}" />
+                <DataGridTextColumn Header="Регион/город" Binding="{Binding Region}" />
+                <DataGridTextColumn Header="Окончил 9/11" Binding="{Binding AfterSchool}" />
+                <DataGridTextColumn Header="Др.обучение" Binding="{Binding EducationPlace}" />
+                <DataGridTextColumn Header="Специальность" Binding="{Binding Speciality}" />
+                <DataGridTextColumn Header="СНИЛС" Binding="{Binding SNILS}" />
+                <DataGridTextColumn Header="Инвалидность" Binding="{Binding Disable}" />
+                <DataGridTextColumn Header="Сиротство/опекунство" Binding="{Binding Orphan}" />
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" />
+                <DataGridTextColumn Header="Зачислен" Binding="{Binding Enrollment}" />
+                <DataGridTextColumn Header="Год поступления" Binding="{Binding Year}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Добавить" Margin="10" Click="Add_Click" />
             <Button Content="Удалить" Margin="10" Click="Delete_Click"  />
