@@ -10,6 +10,7 @@
         <Style TargetType="Button">
             <Setter Property="MinWidth" Value="80"></Setter>
         </Style>
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Globalization;
 using System.IO;
 using System.IO.Enumeration;
 using System.Linq;
@@ -54,6 +55,24 @@ namespace AdmissionCommittee
                 Entrant Entrant = EntrantWindow.Entrant;
                 db.Entrants.Add(Entrant);
                 db.SaveChanges();
+            }
+        }
+
+        public class FirstCharConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if (value is string stringValue && !string.IsNullOrEmpty(stringValue))
+                {
+                    return stringValue[0];
+                }
+
+                return null;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -137,14 +156,19 @@ namespace AdmissionCommittee
             {
                 ObservableCollection<Entrant> entrants = db.Entrants.Local.ToObservableCollection();
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                string fileName = "Entrants";
-                FileInfo newFile = new FileInfo(@".\\..\\..\\..\" + fileName + ".xlsx");
+                string fileName = "Абитуриенты";
+                string filePath = @".\\..\\..\\..\" + fileName + ".xlsx";
 
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
 
+                FileInfo newFile = new FileInfo(filePath);
 
                 using (ExcelPackage exlpck = new ExcelPackage(newFile))
                 {
-                    ExcelWorksheet worksheet = exlpck.Workbook.Worksheets.Add("Entrants");
+                    ExcelWorksheet worksheet = exlpck.Workbook.Worksheets.Add("Абитуриенты");
                     worksheet.Cells[1, 1].Value = "Id";
                     worksheet.Cells[1, 2].Value = "Имя";
                     worksheet.Cells[1, 4].Value = "Фамилия";
@@ -194,14 +218,24 @@ namespace AdmissionCommittee
                         {
                             worksheet.Cells[i + 2, 22].Value = "Да";
                         }
+                        else { worksheet.Cells[i + 2, 22].Value = "Нет"; }
                         if (entrants[i].DisableImg != null && entrants[i].DisableImg.Length > 0)
                         {
                             worksheet.Cells[i + 2, 23].Value = "Да";
                         }
+                        else { worksheet.Cells[i + 2, 23].Value = "Нет"; }
                     }
+                    int columnCount = worksheet.Dimension.End.Column;
+                    for (int i = 1; i < columnCount; i++)
+                    {
+                        worksheet.Column(i).AutoFit();
+                    }
+
+
+                    // Вызываем метод AutoFitRows для всего листа, чтобы подогнать высоту каждой строки по содержимому
                     exlpck.Save();
                 }
-                MessageBox.Show("Создался файл" + fileName);
+                MessageBox.Show("Создался файл" + " " + fileName + ".xlsx");
             }
             catch
             {
