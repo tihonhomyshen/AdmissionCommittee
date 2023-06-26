@@ -130,9 +130,9 @@ namespace AdmissionCommittee
                 string.IsNullOrEmpty(Entrant.Status) ||
                 string.IsNullOrEmpty(Entrant.Enrollment) ||
                 Entrant.Year <= 0 ||
-                Entrant.GradeAverage < 0)
+                Entrant.GradeAverage < 1) 
             {
-                MessageBox.Show("Не все поля заполнены");
+                MessageBox.Show("Не все поля заполнены или заполнены некорректно");
                 return;
             }
             DialogResult = true;

@@ -5,7 +5,7 @@
 namespace AdmissionCommittee.Migrations
 {
     /// <inheritdoc />
-    public partial class _11Entrants : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

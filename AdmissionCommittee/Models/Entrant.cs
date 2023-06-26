@@ -4,9 +4,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AdmissionCommittee.Models
@@ -46,8 +48,17 @@ namespace AdmissionCommittee.Models
             get => first_name;
             set
             {
-                first_name = value;
-                OnPropertyChanged("FirstName");
+                RemoveError("FirstName");
+                if (System.Text.RegularExpressions.Regex.IsMatch(value, @"^[а-яА-Я]+$"))
+                {
+                    first_name = value;
+                    OnPropertyChanged("FirstName");
+                }
+                else
+                {
+                    first_name = null;
+                    AddError("FirstName", "Поле может содержать только кириллицу");
+                }
             }
         }
 
@@ -56,17 +67,36 @@ namespace AdmissionCommittee.Models
             get => last_name;
             set
             {
-                last_name = value;
-                OnPropertyChanged("LastName");
+                RemoveError("LastName");
+                if (System.Text.RegularExpressions.Regex.IsMatch(value, @"^[а-яА-Я]+$"))
+                {
+                    last_name = value;
+                    OnPropertyChanged("LastName");
+                }
+                else
+                {
+                    last_name = null;
+                    AddError("LastName", "Поле содержать только кириллицу");
+                }
             }
         }
 
         public string Patronymic
         {
             get => patronymic;
-            set{ 
-                patronymic = value; 
-                OnPropertyChanged("Patronymic");
+            set{
+
+                RemoveError("Patronymic");
+                if (System.Text.RegularExpressions.Regex.IsMatch(value, @"^[а-яА-Я]+$"))
+                {
+                    patronymic = value;
+                    OnPropertyChanged("Patronymic");
+                }
+                else
+                {
+                    patronymic = null;
+                    AddError("Patronymic", "Поле может содержать только кириллицу");
+                }
             }
         }
 
@@ -84,8 +114,19 @@ namespace AdmissionCommittee.Models
             get => date_of_birth;
             set
             {
-                date_of_birth = value;
-                OnPropertyChanged("DateOfBirth");
+                RemoveError("DateOfBirth");
+                if (DateTime.TryParseExact(value, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result))
+                {
+                    date_of_birth = value;
+                    OnPropertyChanged("DateOfBirth");
+                }
+
+                else
+                {
+                    date_of_birth = null;
+                    AddError("DateOfBirth", "Неверный формат даты");
+                    Age = 0;
+                }
             }
         }
 
@@ -104,14 +145,19 @@ namespace AdmissionCommittee.Models
             get => grade_average;
             set
             {
-                grade_average = value;
-
-                if (grade_average > 5)
+                RemoveError("GradeAverage");
+                if (grade_average < 5 && grade_average > 3)
                 {
-                    AddError("GradeAverage", "Invalid grade.Max grade is five");
+                    grade_average = value;
+                    OnPropertyChanged("GradeAverage");
                 }
+                else
+                {
+                    AddError("GradeAverage", "Ср.балл должен быть от 3 до 5");
+                    grade_average = 0;
+                }
+                
 
-                OnPropertyChanged("GradeAverage");
             }
         }
 
@@ -127,7 +173,8 @@ namespace AdmissionCommittee.Models
         public string? CitizenshipDiff
         {
             get => citezenshipdiff;
-            set { citezenshipdiff = value;
+            set { 
+                citezenshipdiff = value;
                 OnPropertyChanged("CitizenshipDiff");
             }
         }
@@ -178,6 +225,56 @@ namespace AdmissionCommittee.Models
             get => snils;
             set
             {
+                RemoveError("SNILS");
+                if (string.IsNullOrEmpty(value))
+                {
+                    AddError("SNILS", "СНИЛС не может быть пустым");
+                    return;
+                }
+
+                // Удаляем все символы, кроме цифр, пробелов и дефисов
+                string cleanValue = new string(value.Where(c => char.IsDigit(c) || c == ' ' || c == '-').ToArray());
+
+                if (cleanValue.Length != 11)
+                {
+                    AddError("SNILS", "СНИЛС должен содержать 11 символов");
+                    return;
+                }
+
+                int[] multipliers = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+                int sum = 0;
+                for (int i = 0; i < 9; i++)
+                {
+                    sum += multipliers[i] * int.Parse(cleanValue[i].ToString());
+                }
+
+                int controlNumber = 0;
+                if (sum < 100)
+                {
+                    controlNumber = sum;
+                }
+                else if (sum == 100 || sum == 101)
+                {
+                    controlNumber = 0;
+                }
+                else
+                {
+                    controlNumber = sum % 101;
+                }
+
+                if (controlNumber != int.Parse(cleanValue.Substring(9)))
+                {
+                    AddError("SNILS", "Некорректный номер");
+                    return;
+                }
+                
+
+                if (new Regex(@"(\d)\1\1").IsMatch(cleanValue.Substring(0, 9)))
+                {
+                    AddError("SNILS", "В номере СНИЛС не может присутствовать одна и та же цифра три раза подряд");
+                    return;
+                }
+
                 snils = value;
                 OnPropertyChanged("SNILS");
             }
@@ -260,8 +357,10 @@ namespace AdmissionCommittee.Models
             }
         }
 
-        public bool HasErrors => _propertyErrors.Any();
+        public bool CanCreate => !HasErrors;
+        public bool CanSave => !HasErrors;
 
+        public bool HasErrors => _propertyErrors.Any();
 
         #endregion
 
@@ -291,6 +390,17 @@ namespace AdmissionCommittee.Models
         private void OnErrorsChanged(string propertyName)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            OnPropertyChanged(nameof(CanCreate));
+            OnPropertyChanged(nameof(CanSave));
+
+        }
+
+        public void RemoveError(string propertyName)
+        {
+            if (_propertyErrors.Remove(propertyName))
+            {
+                OnErrorsChanged(propertyName);
+            }
         }
     }
 }

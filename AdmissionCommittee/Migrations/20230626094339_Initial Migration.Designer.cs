@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdmissionCommittee.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230626093527_11 Entrants")]
-    partial class _11Entrants
+    [Migration("20230626094339_Initial Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

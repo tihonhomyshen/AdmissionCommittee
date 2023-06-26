@@ -26,7 +26,7 @@
             <TextBox Width="300" FontSize="16" Name="Search_TBox" TextChanged="Search_TBox_TextChanged" Margin="8"></TextBox>
             
         </StackPanel>
-        <DataGrid ItemsSource="{Binding Students}" AutoGenerateColumns="False" x:Name="entrantsDataGrid" Grid.Row="1">
+        <DataGrid ItemsSource="{Binding Entrants}" AutoGenerateColumns="False" x:Name="entrantsDataGrid" Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" />
