@@ -119,7 +119,6 @@ namespace AdmissionCommittee
         {
             if (string.IsNullOrEmpty(Entrant.FirstName) ||
                 string.IsNullOrEmpty(Entrant.LastName) ||
-                string.IsNullOrEmpty(Entrant.Patronymic) ||
                 string.IsNullOrEmpty(Entrant.Gender) ||
                 string.IsNullOrEmpty(Entrant.DateOfBirth) ||
                 string.IsNullOrEmpty(Entrant.Citizenship) ||
