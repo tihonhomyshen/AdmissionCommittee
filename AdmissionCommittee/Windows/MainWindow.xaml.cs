@@ -91,7 +91,8 @@ namespace AdmissionCommittee
                 Year = entrant.Year,
                 OrphanImg = entrant.OrphanImg,
                 DisableImg = entrant.DisableImg,
-            });
+            })
+            { Title = "Изменение абитуриента" };
 
             if (EntrantWindow.ShowDialog() == true)
             {
