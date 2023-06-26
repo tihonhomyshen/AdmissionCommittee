@@ -1,28 +1,12 @@
 ﻿using AdmissionCommittee.Models;
-using Microsoft.Office.Interop.Excel;
-using Microsoft.Win32;
 using OfficeOpenXml;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data.Entity;
-using System.Globalization;
 using System.IO;
-using System.IO.Enumeration;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AdmissionCommittee
 {
@@ -89,8 +73,8 @@ namespace AdmissionCommittee
                 Status = entrant.Status,
                 Enrollment = entrant.Enrollment,
                 Year = entrant.Year,
-                OrphanImg = entrant.OrphanImg,
                 DisableImg = entrant.DisableImg,
+                OrphanImg = entrant.OrphanImg,
             })
             { Title = "Изменение абитуриента" };
 
@@ -103,7 +87,7 @@ namespace AdmissionCommittee
                     entrant.LastName = EntrantWindow.Entrant.LastName;
                     entrant.Patronymic = EntrantWindow.Entrant.Patronymic;
                     entrant.Gender = EntrantWindow.Entrant.Gender;
-                    entrant.DateOfBirth = entrant.DateOfBirth;
+                    entrant.DateOfBirth = EntrantWindow.Entrant.DateOfBirth;
                     entrant.Age = EntrantWindow.Entrant.Age;
                     entrant.GradeAverage = EntrantWindow.Entrant.GradeAverage;
                     entrant.Citizenship = EntrantWindow.Entrant.Citizenship;
@@ -119,8 +103,8 @@ namespace AdmissionCommittee
                     entrant.Orphan = EntrantWindow.Entrant.Orphan;
                     entrant.Status = EntrantWindow.Entrant.Status;
                     entrant.Year = EntrantWindow.Entrant.Year;
-                    entrant.OrphanImg = EntrantWindow.Entrant.OrphanImg;
                     entrant.DisableImg = EntrantWindow.Entrant.DisableImg;
+                    entrant.OrphanImg = EntrantWindow.Entrant.OrphanImg;
 
                     db.SaveChanges();
                     entrantsDataGrid.Items.Refresh();
@@ -215,8 +199,6 @@ namespace AdmissionCommittee
                     {
                         worksheet.Column(i).AutoFit();
                     }
-
-
                     // Вызываем метод AutoFitRows для всего листа, чтобы подогнать высоту каждой строки по содержимому
                     exlpck.Save();
                 }
@@ -228,17 +210,13 @@ namespace AdmissionCommittee
             }
         }
 
-
-
-
         private void Search_TBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
-                //entrantsDataGrid.ItemsSource = db.Entrants.Where(item => item.FirstName == Search_TBox.Text || item.FirstName.Contains(Search_TBox.Text)
-                //    || item.LastName == Search_TBox.Text || item.LastName.Contains(Search_TBox.Text) 
-                //    || item.Gender == Search_TBox.Text || item.Gender.Contains(Search_TBox.Text)).ToList();
-                    
+                entrantsDataGrid.ItemsSource = db.Entrants.Where(item => item.FirstName == Search_TBox.Text || item.FirstName.Contains(Search_TBox.Text)
+                    || item.LastName == Search_TBox.Text || item.LastName.Contains(Search_TBox.Text)
+                    || item.Gender == Search_TBox.Text || item.Gender.Contains(Search_TBox.Text)).ToList();
             }
 
             catch (Exception ex){ 

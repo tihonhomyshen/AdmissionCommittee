@@ -30,31 +30,6 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <!--<Grid.Resources>
-            <Style TargetType="TextBox">
-                <Setter Property="Margin" Value="8" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="TextBox">
-                            <Border BorderThickness="{TemplateBinding BorderThickness}"
-                                    Padding="{TemplateBinding Control.Padding}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    Background="{TemplateBinding Panel.Background}"
-                                    Name="border">
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="UIElement.IsEnabled" Value="False">
-                                    <Setter TargetName="border" 
-                                    Property="BorderBrush"  
-                                    Value="{DynamicResource {x:Static SystemColors.GrayTextColor}}" />
-                                    <Setter Property="Background" Value="#F5F5F5"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </Grid.Resources>-->
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -179,9 +154,9 @@
             </Validation.ErrorTemplate>
         </TextBox>
         <ComboBox Grid.Column="1" Grid.Row="12" x:Name="disableComboBox" SelectedValue="{Binding Disable }" SelectionChanged="disableComboBox_SelectionChanged"></ComboBox>
-        <Button Grid.Column="2" Grid.Row="12" IsEnabled="False" Click="OrphanAdd_Click" x:Name="DisableButton">Загрузить фото</Button>
+        <Button Grid.Column="2" Grid.Row="12" IsEnabled="False" Click="DisableAdd_Click" x:Name="DisableButton">Загрузить фото</Button>
         <ComboBox Grid.Column="1" Grid.Row="13" x:Name="orphanComboBox" SelectedValue="{Binding Orphan }" SelectionChanged="orphanComboBox_SelectionChanged"></ComboBox>
-        <Button Grid.Column="2" Grid.Row="13" IsEnabled="False" Click="DisableAdd_Click" x:Name="OrphanButton">Загрузить фото</Button>
+        <Button Grid.Column="2" Grid.Row="13" IsEnabled="False" Click="OrphanAdd_Click" x:Name="OrphanButton">Загрузить фото</Button>
         <ComboBox Grid.Column="1" Grid.Row="14" x:Name="statusComboBox" SelectedValue="{Binding Status}"></ComboBox>
         <ComboBox Grid.Column="1" Grid.Row="15" x:Name="enrollmentComboBox" SelectedValue="{Binding Enrollment }"></ComboBox>
         <TextBox Grid.Column="2" Grid.Row="15" Text="{Binding Year}" FontSize="16" x:Name="Year"></TextBox>

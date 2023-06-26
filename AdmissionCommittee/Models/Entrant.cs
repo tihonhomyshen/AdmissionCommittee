@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SQLite;
+﻿using SQLite;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,9 +6,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace AdmissionCommittee.Models
 {
@@ -146,7 +143,7 @@ namespace AdmissionCommittee.Models
             set
             {
                 RemoveError("GradeAverage");
-                if (grade_average < 5 && grade_average > 3)
+                if (value <= 5 && value >= 3)
                 {
                     grade_average = value;
                     OnPropertyChanged("GradeAverage");
@@ -156,8 +153,6 @@ namespace AdmissionCommittee.Models
                     AddError("GradeAverage", "Ср.балл должен быть от 3 до 5");
                     grade_average = 0;
                 }
-                
-
             }
         }
 
@@ -274,7 +269,6 @@ namespace AdmissionCommittee.Models
                     AddError("SNILS", "В номере СНИЛС не может присутствовать одна и та же цифра три раза подряд");
                     return;
                 }
-
                 snils = value;
                 OnPropertyChanged("SNILS");
             }
@@ -338,15 +332,6 @@ namespace AdmissionCommittee.Models
             }
         }
 
-        public byte[]? OrphanImg
-        {
-            get => orphan_img;
-            set {
-                orphan_img = value;
-                OnPropertyChanged("OprhanImg");
-            }
-        }
-
         public byte[]? DisableImg
         {
             get => disable_img;
@@ -357,14 +342,21 @@ namespace AdmissionCommittee.Models
             }
         }
 
+        public byte[]? OrphanImg
+        {
+            get => orphan_img;
+            set {
+                orphan_img = value;
+                OnPropertyChanged("OprhanImg");
+            }
+        }
+
+
         public bool CanCreate => !HasErrors;
         public bool CanSave => !HasErrors;
-
         public bool HasErrors => _propertyErrors.Any();
 
         #endregion
-
-
         public event PropertyChangedEventHandler? PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
