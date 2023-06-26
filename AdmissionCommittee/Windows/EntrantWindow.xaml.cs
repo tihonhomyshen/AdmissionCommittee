@@ -1,5 +1,6 @@
 ﻿using AdmissionCommittee.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Win32;
 using Microsoft.Windows.Themes;
@@ -10,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -115,6 +117,25 @@ namespace AdmissionCommittee
 
         void Accept_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(Entrant.FirstName) ||
+                string.IsNullOrEmpty(Entrant.LastName) ||
+                string.IsNullOrEmpty(Entrant.Patronymic) ||
+                string.IsNullOrEmpty(Entrant.Gender) ||
+                string.IsNullOrEmpty(Entrant.DateOfBirth) ||
+                string.IsNullOrEmpty(Entrant.Citizenship) ||
+                string.IsNullOrEmpty(Entrant.Location) ||
+                string.IsNullOrEmpty(Entrant.AfterSchool) ||
+                string.IsNullOrEmpty(Entrant.Speciality) ||
+                string.IsNullOrEmpty(Entrant.Disable) ||
+                string.IsNullOrEmpty(Entrant.Orphan) ||
+                string.IsNullOrEmpty(Entrant.Status) ||
+                string.IsNullOrEmpty(Entrant.Enrollment) ||
+                Entrant.Year <= 0 ||
+                Entrant.GradeAverage < 0)
+            {
+                MessageBox.Show("Не все поля заполнены");
+                return;
+            }
             DialogResult = true;
         }
 

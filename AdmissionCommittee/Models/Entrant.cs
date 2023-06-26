@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SQLite;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,8 +11,10 @@ using System.Threading.Tasks;
 
 namespace AdmissionCommittee.Models
 {
-    public class Entrant: INotifyPropertyChanged
+    public class Entrant: INotifyPropertyChanged, INotifyDataErrorInfo
     {
+        private readonly Dictionary<string, List<string>> _propertyErrors = new Dictionary<string, List<string>>(); 
+
         [SQLite.PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         private string last_name;
@@ -102,6 +105,12 @@ namespace AdmissionCommittee.Models
             set
             {
                 grade_average = value;
+
+                if (grade_average > 5)
+                {
+                    AddError("GradeAverage", "Invalid grade.Max grade is five");
+                }
+
                 OnPropertyChanged("GradeAverage");
             }
         }
@@ -251,16 +260,38 @@ namespace AdmissionCommittee.Models
             }
         }
 
+        public bool HasErrors => _propertyErrors.Any();
+
+
         #endregion
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {
             if (PropertyChanged != null) 
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            return _propertyErrors.GetValueOrDefault(propertyName, null);
+        }
+
+        public void AddError(string propertyName, string errorMessage)
+        {
+            if (!_propertyErrors.ContainsKey(propertyName)){
+                _propertyErrors.Add(propertyName, new List<string>());
+            }
+            _propertyErrors[propertyName].Add(errorMessage);
+        }
+
+        private void OnErrorsChanged(string propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        }
     }
 }
 
